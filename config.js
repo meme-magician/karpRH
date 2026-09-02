@@ -5,5 +5,5 @@
    ============================================================ */
 window.KARP = {
   contract: "", // token CA, e.g. "0xabc..."
-  x: "karpcoinRH",        // X account: "@handle", "handle", or https://x.com/handle
+  x: "@karpcoinRH",        // X account: "@handle", "handle", or https://x.com/handle
 };
