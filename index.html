@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<!-- $KARP — one file + /images. Paste the live contract into CFG.contract in the <script> at the bottom. -->
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>$KARP — the carp of Palantir. Quoted in PLTR.</title>
+  <meta name="description" content="KARP is a Robinhood Chain memecoin paired with tokenized Palantir ($PLTR). Alex Karp, as a carp. The seeing stone is a pond." />
+  <meta property="og:title" content="$KARP — carp / PLTR" />
+  <meta property="og:description" content="Robinhood Chain memecoin quoted in tokenized Palantir. The CEO, as a fish." />
+  <meta property="og:image" content="images/mascot.jpg" />
+  <meta name="theme-color" content="#07080a" />
+  <link rel="icon" href="images/coin.jpg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --ink: #07080a;
+      --pond: #0b1410;
+      --gold: #d4a017;
+      --gold-2: #f0d48a;
+      --scale: #c44512;
+      --paper: #efe6d2;
+      --mute: #9aa89a;
+      --line: rgba(240, 212, 138, .16);
+      --hood: #00c805;
+      --frame: #b8892d;
+      --danger: #e24b3a;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    html, body { background: var(--ink); color: var(--paper); }
+    body {
+      font-family: "IBM Plex Mono", ui-monospace, monospace;
+      font-size: 14px;
+      line-height: 1.55;
+      overflow-x: hidden;
+    }
+    img { max-width: 100%; display: block; }
+    a { color: inherit; text-decoration: none; }
+    button, .btn { font-family: inherit; cursor: pointer; }
+    .wrap { width: min(1120px, calc(100% - 40px)); margin-inline: auto; }
+    .serif { font-family: "Instrument Serif", Georgia, serif; }
+
+    /* classified tape */
+    .tape {
+      background: #10140f;
+      border-bottom: 1px solid var(--line);
+      color: var(--gold-2);
+      font-size: 11px;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      padding: 8px 0;
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      white-space: nowrap;
+    }
+    .tape b { color: var(--hood); font-weight: 600; }
+    .tape span { opacity: .7; }
+
+    header.nav {
+      position: sticky; top: 0; z-index: 40;
+      background: rgba(7,8,10,.78);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--line);
+    }
+    .nav-row {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 12px 0; gap: 20px;
+    }
+    .brand {
+      display: flex; align-items: center; gap: 10px;
+      font-weight: 600; letter-spacing: .12em;
+    }
+    .brand img {
+      width: 36px; height: 36px; border-radius: 50%;
+      border: 1px solid var(--gold);
+      object-fit: cover;
+    }
+    .links { display: flex; gap: 22px; font-size: 12px; letter-spacing: .14em; text-transform: uppercase; }
+    .links a { opacity: .7; }
+    .links a:hover { opacity: 1; color: var(--gold-2); }
+    .nav-cta { display: flex; gap: 8px; }
+    .menu-btn {
+      display: none; background: none; border: 1px solid var(--line);
+      color: var(--paper); padding: 8px 10px; letter-spacing: .12em;
+    }
+
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+      border: 1px solid var(--gold);
+      background: var(--gold); color: #1a1204;
+      padding: 12px 18px; font-size: 12px; font-weight: 600;
+      letter-spacing: .12em; text-transform: uppercase;
+    }
+    .btn.ghost {
+      background: transparent; color: var(--gold-2);
+    }
+    .btn:hover { filter: brightness(1.08); }
+    .btn:disabled { opacity: .55; cursor: not-allowed; filter: none; }
+
+    /* hero */
+    .hero {
+      position: relative;
+      min-height: calc(100vh - 90px);
+      padding: 48px 0 72px;
+      overflow: hidden;
+    }
+    .hero-bg {
+      position: absolute; inset: 0;
+      background: url("images/pond.jpg") center/cover no-repeat;
+      opacity: .38; pointer-events: none;
+    }
+    .hero-bg::after {
+      content: ""; position: absolute; inset: 0;
+      background: linear-gradient(180deg, rgba(7,8,10,.2), rgba(7,8,10,.92) 88%);
+    }
+    .hero-grid {
+      position: relative;
+      display: grid; grid-template-columns: 1.05fr .95fr;
+      gap: 56px; align-items: center;
+    }
+    .kicker {
+      color: var(--gold); letter-spacing: .22em; font-size: 11px;
+      text-transform: uppercase; margin-bottom: 18px;
+    }
+    h1 {
+      font-family: "Instrument Serif", Georgia, serif;
+      font-size: clamp(64px, 12vw, 132px);
+      line-height: .82; font-weight: 400;
+      letter-spacing: -.04em;
+    }
+    h1 em {
+      display: block; font-size: .28em; letter-spacing: .08em;
+      font-style: italic; opacity: .8; margin-bottom: 8px;
+    }
+    .lede {
+      margin-top: 22px; max-width: 42ch;
+      font-size: 15px; color: var(--paper);
+    }
+    .lede strong { color: var(--gold-2); font-weight: 500; }
+    .actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 28px; }
+    .ca-row {
+      margin-top: 18px; font-size: 11px; color: var(--mute);
+      display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+    }
+    .ca-row code {
+      color: var(--gold-2); background: rgba(212,160,23,.08);
+      border: 1px solid var(--line); padding: 6px 8px;
+      word-break: break-all;
+    }
+    .stats {
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      gap: 0; margin-top: 36px;
+      border-top: 1px solid var(--line);
+    }
+    .stats div { padding: 14px 12px 0 0; }
+    .stats dt { font-size: 10px; letter-spacing: .16em; text-transform: uppercase; color: var(--mute); }
+    .stats dd { font-size: 13px; margin-top: 4px; color: var(--gold-2); }
+
+    .frame {
+      background: linear-gradient(145deg, #6a4e16, #e0b24a 35%, #8a6420 70%, #3d2a0c);
+      padding: 11px; box-shadow: 0 30px 80px rgba(0,0,0,.55), 0 0 0 1px rgba(255,220,140,.2);
+      transform: rotate(-1.2deg);
+    }
+    .frame .mat { background: #0c0c0c; padding: 10px; }
+    .frame img { width: 100%; aspect-ratio: 3/4; object-fit: cover; }
+    .frame figcaption {
+      background: #16110a; color: #cbb48a;
+      font-size: 11px; padding: 10px 12px;
+      display: flex; justify-content: space-between; gap: 12px;
+    }
+    .stamp {
+      position: absolute; right: -8px; top: 18px;
+      border: 2px solid var(--danger); color: var(--danger);
+      padding: 6px 10px; letter-spacing: .2em; font-size: 11px;
+      transform: rotate(12deg); opacity: .85;
+      mix-blend-mode: screen;
+    }
+
+    .marquee {
+      border-block: 1px solid var(--line);
+      background: #0a0d0b;
+      overflow: hidden; white-space: nowrap;
+      padding: 12px 0; font-size: 12px; letter-spacing: .18em;
+      text-transform: uppercase; color: var(--gold);
+    }
+    .marquee-track { display: inline-block; animation: tick 28s linear infinite; }
+    @keyframes tick { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+    section { padding: 88px 0; }
+    .sec-kicker { color: var(--gold); letter-spacing: .2em; font-size: 11px; text-transform: uppercase; }
+    h2 {
+      font-family: "Instrument Serif", Georgia, serif;
+      font-size: clamp(36px, 6vw, 64px); font-weight: 400;
+      line-height: .95; margin: 10px 0 22px;
+    }
+    h2 em { font-style: italic; color: var(--gold-2); }
+
+    .split { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center; }
+    .copy p { color: #d7d0bf; margin-bottom: 14px; max-width: 54ch; }
+    .copy p.pull {
+      font-family: "Instrument Serif", Georgia, serif;
+      font-size: 28px; line-height: 1.2; color: var(--paper); font-style: italic;
+    }
+
+    .pond-shot { position: relative; }
+    .pond-shot img { width: 100%; height: min(72vh, 680px); object-fit: cover; object-position: center 20%; }
+    .pond-shot .cap {
+      position: absolute; left: 12px; bottom: 12px;
+      background: rgba(7,8,10,.72); padding: 8px 10px;
+      font-size: 11px; letter-spacing: .12em; color: var(--gold-2);
+    }
+
+    .dossier {
+      width: 100%; border-collapse: collapse; font-size: 13px;
+    }
+    .dossier th, .dossier td {
+      text-align: left; padding: 14px 0;
+      border-bottom: 1px solid var(--line); vertical-align: top;
+    }
+    .dossier th {
+      width: 34%; color: var(--mute); font-weight: 500;
+      letter-spacing: .12em; text-transform: uppercase; font-size: 11px;
+    }
+    .dossier td { color: var(--paper); }
+    .dossier .hood { color: var(--hood); }
+
+    .ops { display: grid; gap: 0; }
+    .op {
+      display: grid; grid-template-columns: 72px 1fr;
+      gap: 18px; padding: 22px 0;
+      border-bottom: 1px solid var(--line);
+    }
+    .op .num {
+      font-family: "Instrument Serif", Georgia, serif;
+      font-size: 36px; color: var(--gold); line-height: 1;
+    }
+    .op h3 { font-size: 13px; letter-spacing: .14em; text-transform: uppercase; margin-bottom: 6px; }
+    .op p { color: var(--mute); max-width: 60ch; }
+
+    .gallery {
+      display: grid; grid-template-columns: 1.1fr .9fr;
+      gap: 16px;
+    }
+    .gallery .cell { position: relative; overflow: hidden; background: #0c0c0c; min-height: 420px; }
+    .gallery img { width: 100%; height: 100%; object-fit: cover; position: absolute; inset: 0; }
+    .gallery .wide { grid-column: 1 / -1; min-height: 420px; max-height: 520px; }
+    .gallery .cell span {
+      position: absolute; left: 12px; bottom: 12px;
+      font-size: 11px; letter-spacing: .14em; text-transform: uppercase;
+      background: rgba(0,0,0,.55); padding: 6px 8px; color: var(--gold-2);
+    }
+
+    .pair-box {
+      border: 1px solid var(--line); padding: 28px;
+      background: linear-gradient(180deg, rgba(0,200,5,.05), transparent 40%);
+    }
+    .pair-box .ratio {
+      font-family: "Instrument Serif", Georgia, serif;
+      font-size: clamp(28px, 5vw, 48px); margin: 8px 0 12px;
+    }
+    .pair-box .ratio b { color: var(--gold-2); font-weight: 400; }
+    .pair-box .ratio i { color: var(--hood); font-style: normal; }
+
+    footer {
+      border-top: 1px solid var(--line);
+      padding: 40px 0 80px; color: var(--mute); font-size: 12px;
+    }
+    footer strong { color: var(--paper); font-weight: 500; }
+    .foot-row { display: flex; justify-content: space-between; gap: 24px; flex-wrap: wrap; margin-bottom: 28px; }
+    .legal { max-width: 80ch; line-height: 1.7; }
+
+    .toast {
+      position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%) translateY(20px);
+      background: var(--gold); color: #1a1204; padding: 10px 16px;
+      font-size: 12px; letter-spacing: .12em; text-transform: uppercase;
+      opacity: 0; pointer-events: none; transition: .25s ease; z-index: 80;
+    }
+    .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+    .mobile-bar {
+      display: none; position: fixed; bottom: 0; left: 0; right: 0; z-index: 50;
+      background: rgba(7,8,10,.92); border-top: 1px solid var(--line);
+      padding: 10px 14px calc(10px + env(safe-area-inset-bottom));
+      gap: 8px;
+    }
+
+    canvas#silt { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; opacity: .45; }
+
+    @media (max-width: 860px) {
+      .links, .nav-cta { display: none; }
+      .links.open {
+        display: flex; flex-direction: column; position: absolute;
+        top: 100%; left: 0; right: 0; background: #0b0d0c;
+        padding: 16px 20px 20px; border-bottom: 1px solid var(--line);
+      }
+      .menu-btn { display: inline-block; }
+      .hero-grid, .split, .gallery { grid-template-columns: 1fr; }
+      .stats { grid-template-columns: 1fr 1fr; }
+      .frame { transform: none; }
+      .stamp { right: 8px; }
+      .mobile-bar { display: flex; }
+      section { padding: 64px 0; }
+      footer { padding-bottom: 110px; }
+      .tape span.hide-sm { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="tape wrap">
+    <span>FILE // KARP-PLTR-001</span>
+    <span><b>PAIR LIVE ON ROBINHOOD CHAIN</b></span>
+    <span class="hide-sm">CLASSIFICATION: MEME · NOT A SECURITY</span>
+  </div>
+
+  <header class="nav">
+    <div class="wrap nav-row">
+      <a class="brand" href="#top">
+        <img src="images/coin.jpg" alt="$KARP coin" />
+        $KARP
+      </a>
+      <nav class="links" id="links">
+        <a href="#pair">The pair</a>
+        <a href="#dossier">Dossier</a>
+        <a href="#swim">How to buy</a>
+        <a href="#gallery">Gallery</a>
+      </nav>
+      <div class="nav-cta">
+        <button class="btn ghost" data-copy>Copy CA</button>
+        <a class="btn" id="buyTop" href="#swim">Buy with PLTR</a>
+      </div>
+      <button class="menu-btn" id="menu" aria-label="Menu">MENU</button>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <div class="hero-bg"></div>
+      <canvas id="silt"></canvas>
+      <div class="wrap hero-grid">
+        <div>
+          <p class="kicker" id="kicker">Robinhood chain memecoin · quoted in $PLTR</p>
+          <h1><em>the carp of palantir</em>KARP</h1>
+          <p class="lede">
+            Palantir’s CEO, <strong>Alex Karp</strong>, as a carp.
+            A Robinhood Chain memecoin whose only quote asset is tokenized
+            <strong>PLTR</strong> — the stock of the company he built.
+            The seeing stone is a pond. The carp sees you.
+          </p>
+          <div class="actions">
+            <a class="btn" id="buyHero" href="#swim">Buy with PLTR</a>
+            <button class="btn ghost" data-copy>Copy contract</button>
+          </div>
+          <div class="ca-row">
+            <span>CA</span>
+            <code id="caDisplay">TBA</code>
+          </div>
+          <dl class="stats">
+            <div><dt>Pair</dt><dd>$KARP / $PLTR</dd></div>
+            <div><dt>Chain</dt><dd>Robinhood</dd></div>
+            <div><dt>Tax</dt><dd>0 / 0</dd></div>
+            <div><dt>Supply</dt><dd>1B</dd></div>
+          </dl>
+        </div>
+        <figure class="frame" style="position:relative">
+          <div class="stamp">UNAFFILIATED</div>
+          <div class="mat">
+            <img src="images/mascot.jpg" alt="Alex Karp as a carp, fins crossed" />
+          </div>
+          <figcaption>
+            <span>KARP (as carp), 2026</span>
+            <span>oil on pond</span>
+          </figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <div class="marquee" aria-hidden="true">
+      <div class="marquee-track" id="ticker"></div>
+    </div>
+
+    <section id="pair">
+      <div class="wrap split">
+        <div class="copy">
+          <p class="sec-kicker">01 — The pair</p>
+          <h2>Quoted in the <em>seeing stone.</em></h2>
+          <p class="pull">Most memes pair against a stablecoin. This one pairs against Palantir.</p>
+          <p>
+            On Robinhood Chain, tokenized US stocks trade as ERC-20s. Palantir
+            (<code style="color:var(--gold-2)">PLTR</code>) is one of them —
+            contract <span id="pltrShort"></span>.
+            Launchpads quote new memes in those stock tokens, locking real
+            equity-like exposure in the pool.
+          </p>
+          <p>
+            $KARP is that joke taken literally: the carp swims in a pond of
+            Palantir. Every buy, every sell, every LP position is
+            <strong style="color:var(--paper)">KARP / PLTR</strong>.
+            The ticker is the man. The quote is the company.
+          </p>
+          <div class="pair-box" style="margin-top:28px">
+            <p class="sec-kicker">Liquidity pair</p>
+            <div class="ratio"><b>$KARP</b> / <i>$PLTR</i></div>
+            <p style="color:var(--mute);font-size:12px">
+              Quote asset: Palantir Technologies · Robinhood Stock Token<br />
+              Venue: Uniswap on Robinhood Chain
+            </p>
+          </div>
+        </div>
+        <figure class="pond-shot">
+          <img src="images/swim.jpg" alt="KARP swimming through a dark pond" />
+          <div class="cap">THE CARP IN THE PLTR POOL</div>
+        </figure>
+      </div>
+    </section>
+
+    <section id="dossier" style="background:#080b09; border-block:1px solid var(--line)">
+      <div class="wrap split">
+        <div>
+          <p class="sec-kicker">02 — Dossier</p>
+          <h2>Token <em>spec.</em></h2>
+          <p class="copy" style="color:#d7d0bf;max-width:46ch">
+            A fair-launch carp. No VC allocation. No tax. Liquidity quoted
+            entirely in tokenized PLTR so the meme and the stock share a pond.
+          </p>
+        </div>
+        <table class="dossier">
+          <tr><th>Ticker</th><td>$KARP</td></tr>
+          <tr><th>Name</th><td>KARP — Alex Karp as a carp</td></tr>
+          <tr><th>Quote</th><td class="hood">$PLTR · Palantir Technologies (Robinhood Token)</td></tr>
+          <tr><th>PLTR CA</th><td style="word-break:break-all">0x894E1EC2D74FFE5AEF8Dc8A9e84686acCB964F2A</td></tr>
+          <tr><th>Chain</th><td>Robinhood Chain (Arbitrum Orbit L2)</td></tr>
+          <tr><th>DEX</th><td>Uniswap v2 / v3 / v4</td></tr>
+          <tr><th>Supply</th><td>1,000,000,000</td></tr>
+          <tr><th>Tax</th><td>0% buy / 0% sell</td></tr>
+          <tr><th>LP</th><td>100% vs PLTR, locked</td></tr>
+          <tr><th>Contract</th><td id="caRow">TBA</td></tr>
+        </table>
+      </div>
+    </section>
+
+    <section id="swim">
+      <div class="wrap">
+        <p class="sec-kicker">03 — Field ops</p>
+        <h2>How to <em>swim.</em></h2>
+        <div class="ops">
+          <article class="op">
+            <div class="num">01</div>
+            <div>
+              <h3>Wallet</h3>
+              <p>Robinhood Wallet or MetaMask. Stock tokens on this chain are not available to US persons — check eligibility before you bridge.</p>
+            </div>
+          </article>
+          <article class="op">
+            <div class="num">02</div>
+            <div>
+              <h3>Robinhood Chain</h3>
+              <p>Switch the network to Robinhood Chain. Bridge ETH or USDG. Gas is ETH. Uniswap is the public AMM.</p>
+            </div>
+          </article>
+          <article class="op">
+            <div class="num">03</div>
+            <div>
+              <h3>Get PLTR</h3>
+              <p>Buy the Palantir Robinhood Stock Token. Verify the contract: <code style="color:var(--gold-2)">0x894E1EC2D74FFE5AEF8Dc8A9e84686acCB964F2A</code></p>
+            </div>
+          </article>
+          <article class="op">
+            <div class="num">04</div>
+            <div>
+              <h3>Swap PLTR → KARP</h3>
+              <p>On Uniswap, set input to PLTR and output to KARP. Paste the KARP contract. This is a stock-paired pool — you are trading against Palantir, not a stable.</p>
+            </div>
+          </article>
+          <article class="op">
+            <div class="num">05</div>
+            <div>
+              <h3>Add the token</h3>
+              <p>If the balance does not show, import the KARP contract. Then you are in the pond.</p>
+            </div>
+          </article>
+        </div>
+        <div class="actions" style="margin-top:28px">
+          <a class="btn" id="buyUni" href="https://app.uniswap.org/swap?chain=robinhood&inputCurrency=0x894E1EC2D74FFE5AEF8Dc8A9e84686acCB964F2A" target="_blank" rel="noopener">Open Uniswap</a>
+          <a class="btn ghost" id="chartLink" href="https://dexscreener.com/robinhood" target="_blank" rel="noopener">Dexscreener</a>
+        </div>
+      </div>
+    </section>
+
+    <section id="gallery" style="background:#080b09; border-block:1px solid var(--line)">
+      <div class="wrap">
+        <p class="sec-kicker">04 — Collection</p>
+        <h2>He brought a <em>sword</em> to the pond.</h2>
+        <div class="gallery">
+          <figure class="cell">
+            <img src="images/sword.jpg" alt="KARP holding a ceremonial sword" />
+            <span>Burn the shorts</span>
+          </figure>
+          <figure class="cell">
+            <img src="images/avatar.jpg" alt="Portrait of KARP in scale armor" />
+            <span>Scale briefing</span>
+          </figure>
+          <figure class="cell wide">
+            <img src="images/coin.jpg" alt="Gold $KARP coin medallion" style="max-height:520px;object-fit:contain;background:#000" />
+            <span>The coin</span>
+          </figure>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <div class="foot-row">
+        <div class="brand"><img src="images/coin.jpg" alt="" /> $KARP</div>
+        <div>
+          <a href="#swim">Buy</a> ·
+          <a href="#dossier">Dossier</a> ·
+          <a id="xLink" href="#" target="_blank" rel="noopener">X</a> ·
+          <a id="tgLink" href="#" target="_blank" rel="noopener">Telegram</a>
+        </div>
+      </div>
+      <p class="legal">
+        <strong>Parody. Not affiliated</strong> with Palantir Technologies Inc.,
+        Alexander C. Karp, Robinhood Markets, Inc., or Robinhood Crypto.
+        $KARP is a community memecoin with no intrinsic value. It is not equity,
+        not a Palantir product, and not a Robinhood Stock Token.
+        Robinhood Stock Tokens (including PLTR) are tokenized debt securities
+        that may be restricted for US persons and do not confer share ownership.
+        This site is not financial, legal, or tax advice. Memecoins can go to zero.
+        Do your own research. Swim at your own risk.
+      </p>
+    </div>
+  </footer>
+
+  <div class="mobile-bar">
+    <button class="btn ghost" data-copy style="flex:1">Copy CA</button>
+    <a class="btn" id="buyMobile" href="#swim" style="flex:1">Buy with PLTR</a>
+  </div>
+  <div class="toast" id="toast">Copied</div>
+
+  <script>
+    /* ── paste your live contract & socials ── */
+    const CFG = {
+      contract: "", // e.g. "0x..."
+      twitter: "",
+      telegram: "",
+      pltr: "0x894E1EC2D74FFE5AEF8Dc8A9e84686acCB964F2A",
+      uniswapBase: "https://app.uniswap.org/swap?chain=robinhood",
+      dexscreenerBase: "https://dexscreener.com/robinhood"
+    };
+
+    const ca = (CFG.contract || "").trim();
+    const caLabel = ca || "TBA — paste CFG.contract in index.html";
+    document.getElementById("caDisplay").textContent = caLabel;
+    document.getElementById("caRow").textContent = caLabel;
+    document.getElementById("pltrShort").textContent = CFG.pltr.slice(0, 8) + "…" + CFG.pltr.slice(-4);
+
+    const uni = ca
+      ? `${CFG.uniswapBase}&inputCurrency=${CFG.pltr}&outputCurrency=${ca}`
+      : `${CFG.uniswapBase}&inputCurrency=${CFG.pltr}`;
+    const chart = ca ? `${CFG.dexscreenerBase}/${ca}` : CFG.dexscreenerBase;
+    ["buyTop", "buyHero", "buyUni", "buyMobile"].forEach((id) => {
+      const el = document.getElementById(id);
+      if (!el) return;
+      if (id === "buyUni" || ca) { el.href = uni; el.target = "_blank"; el.rel = "noopener"; }
+    });
+    document.getElementById("chartLink").href = chart;
+    if (CFG.twitter) document.getElementById("xLink").href = CFG.twitter;
+    if (CFG.telegram) document.getElementById("tgLink").href = CFG.telegram;
+
+    const toast = document.getElementById("toast");
+    function copyCA() {
+      const text = ca || "KARP contract TBA";
+      navigator.clipboard.writeText(text).then(() => {
+        toast.textContent = ca ? "Contract copied" : "No contract yet — paste CFG.contract";
+        toast.classList.add("show");
+        setTimeout(() => toast.classList.remove("show"), 1600);
+      });
+    }
+    document.querySelectorAll("[data-copy]").forEach((b) => b.addEventListener("click", copyCA));
+
+    const menu = document.getElementById("menu");
+    const links = document.getElementById("links");
+    menu.addEventListener("click", () => links.classList.toggle("open"));
+    links.querySelectorAll("a").forEach((a) => a.addEventListener("click", () => links.classList.remove("open")));
+
+    const bits = [
+      "$KARP", "PAIRED WITH $PLTR", "ROBINHOOD CHAIN", "THE CARP SEES YOU",
+      "SEEING STONE POND", "BURN THE SHORTS", "ALEX KARP AS A CARP",
+      "QUOTED IN PALANTIR", "UNISWAP", "NOT A SECURITY", "SWIM"
+    ];
+    const line = bits.map((t) => t + "  ·  ").join("");
+    document.getElementById("ticker").textContent = line + line;
+
+    /* silt particles */
+    const c = document.getElementById("silt");
+    const ctx = c.getContext("2d");
+    const dots = Array.from({ length: 50 }, () => ({
+      x: Math.random(), y: Math.random(),
+      r: Math.random() * 1.6 + .3,
+      s: Math.random() * .25 + .05,
+      a: Math.random() * .5 + .15
+    }));
+    function size() { c.width = c.offsetWidth; c.height = c.offsetHeight; }
+    size(); addEventListener("resize", size);
+    (function loop() {
+      ctx.clearRect(0, 0, c.width, c.height);
+      dots.forEach((d) => {
+        d.y -= d.s / 400; if (d.y < 0) d.y = 1;
+        ctx.fillStyle = `rgba(240,212,138,${d.a})`;
+        ctx.beginPath();
+        ctx.arc(d.x * c.width, d.y * c.height, d.r, 0, Math.PI * 2);
+        ctx.fill();
+      });
+      requestAnimationFrame(loop);
+    })();
+  </script>
+</body>
+</html>
