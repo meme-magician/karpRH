@@ -4,6 +4,6 @@
    chart link, and X link on the page reads from this object.
    ============================================================ */
 window.KARP = {
-  contract: "", // token CA, e.g. "0xabc..."
+  contract: "0x49af762f8e00232815376b142e34960883bc16c6", // token CA, e.g. "0xabc..."
   x: "@karpcoinRH",        // X account: "@handle", "handle", or https://x.com/handle
 };
